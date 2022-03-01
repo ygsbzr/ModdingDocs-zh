@@ -1,7 +1,7 @@
 # ModHooks Reference
 在这里你可以找到钩子函数，并有关于它们的解释，以及如何使用它们
 然而，这里并不包含所有的钩子函数，具体参阅
-[API Documentation](https://hk-modding.github.io/api/api/Modding.ModHooks.html#events) for a list of all hooks.
+[API Documentation](https://hk-modding.github.io/api/api/Modding.ModHooks.html#events) 来获取全部的钩子函数.
 
 ### HeroUpdateHook
 这个事件将在 `HeroController.Update`函数中被调用.  
@@ -20,55 +20,54 @@ public string HeroUpdate()
 ```
 
 ### LanguageGetHook
-This hook is the main way to change ingame text. The way it works is that each time the game wants to find what text to display, 
-it uses `Language.Language.Get` (which is where this hook is called) to get the text based on the text's "key". The text is also 
-organized in sheets so the key and sheet uniquely identify the text. To see what key and sheet a text is in, refer to 
-[the full list of all keys and sheets](https://docs.google.com/spreadsheets/d/1_sQ5ygsrN42toz3VnKy-8v6bwrh0UoaV/edit?usp=sharing&ouid=105022867698529839659&rtpof=true&sd=true). or add logging to the hook
-To use the hook, check the `key` and `sheetTitle` and return the new text you want to display if the key/sheetTitle is the one you want to change.
-Alternatively, you can use `orig` to check for text and return new text. However this is not recommended because it may cause unexpected text changes.
-An example for both is given below
+这个钩子是更改游戏内文本的主要方法. 这个方法将在每次游戏想要找到需要的文本时调用, 
+它使用 `Language.Language.Get` 函数(LanguageHook调用处）来找到基于 "key"（关键词）的文本. 文本同时也被组织进了sheet(表单)中,所以我们可以使用key和sheet来确定唯一的文本,.看三者对应关系请参考 
+[the full list of all keys and sheets](https://docs.google.com/spreadsheets/d/1_sQ5ygsrN42toz3VnKy-8v6bwrh0UoaV/edit?usp=sharing&ouid=105022867698529839659&rtpof=true&sd=true). 或者通过该钩子函数打log
+该钩子的使用方法, 检查 `key` 和 `sheetTitle` ，然后如果是你想改的文本对应的key/sheetTitle，返回新文本
+或者, 你可以使用 `orig` 来检查文本内容来返回新文本.然而，我们不推荐这么做，因为这样可能会导致未知的文本变化.
+下面有个例子
 ```cs
 ModHooks.LanguageGetHook += LanguageGet;
 public string LanguageGet(string key, string sheetTitle, string orig)
 {
-    //Check for the key and sheet for MainMenu "Yes" text
+    //检查文本的key和sheet
     if (key == "NAV_YES" && sheetTitle == "MainMenu")
     {
-        //return the new text you want to display. 
+        //返回新文本 
         return "Yee";
     }
     
-    //a way to replace all Yes with Yee
+    //一种把Yes都替换为Yee的办法
     if (orig.Contains("Yes"))
     {
         return orig.Replace("Yes", "Yee");
     }
     
-    //make sure to return orig for all the other texts you dont want to change
+    //确保其他原文本正常
     return orig;
 }
 ```
 
-This hook can also be used to return text for custom keys you create. (An example being using SFCore to add custom charms). To do this,
-check for `if(key == "MyCustomKey") return "MyCustomText`.
+这个钩子也可以用于自定义key. (例如利用 SFCore 添加自定义护符). 做法：
+ `if(key == "MyCustomKey") return "MyCustomText`.
 
-| Parameter type | Parameter name | Explanation                                                                                                                           |
+| 参数类型        | 参数名          |注解                                                                                                                                   |
 |----------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| string         | key            | The key of the text in the sheet. This combined with sheetTitle is the way the game uniquely identifies the text required to be shown |
-| string         | sheetTitle     | The sheet that the text is in                                                                                                         |
-| string         | orig           | The original string. To be returned if nothing is changed                                                                             |
+| string         | key            | 表单中文本的关键词. 它和SheetTitle结合来确定唯一文本                                                                                     |
+| string         | sheetTitle     | 文本所在的表单                                                                                                                         |
+| string         | orig           | 原文本. 在没有改变时记得返回                                                                                                            |
 
-| Return type | Explanation                                                                   |
+| 返回类型     | 注解                                                                          |
 |-------------|-------------------------------------------------------------------------------|
-| string      | The new text that should be displayed. return orig if no changes are required |
+| string      |  新文本（记得在无改动时返回原文本）                                              |
 
 ### BeforeSceneLoadHook
-> Note: This hook should normally NOT be used for the following reasons:
-> 1. It only allows you to change scene name and not other relevant data (like entry gate name) 
-> 2. If your goal is to only see what new scene is being entered, use `UnityEngine.SceneManagement.SceneManager.activeSceneChanged` instead
-> 3. If your goal is to see what scene is being entered and change it, use `On.GameManager.BeginSceneTransition` instead (because it can solve problem 1). 
+> 注意: 这个钩子由于一下原因平常不需要使用:
+> 1. 它只允许你改动场景名，不允许改动其他数据 
+> 2. 如果你的目的是查看新进的场景, 使用 `UnityEngine.SceneManagement.SceneManager.activeSceneChanged` 代替
+> 3. 如果你的目的是查看进入了哪个场景并改动它, 用 `On.GameManager.BeginSceneTransition` 代替 (因为可以解决问题1). 
 
-This event is called in `GameManager.BeginSceneTransition`. It is called before a new scene is loaded and allows you to change what scene is loaded. However it is not recommended to use (see note above).
+这个事件在 `GameManager.BeginSceneTransition`被调用. 它在新场景前加载调用， 允许你决定哪个场景被加载. 但不推荐使用 (看上面).
 ```cs
 ModHooks.BeforeSceneLoadHook += BeforeSceneLoad;
 public string BeforeSceneLoad(string newSceneName)
@@ -77,30 +76,30 @@ public string BeforeSceneLoad(string newSceneName)
     return newSceneName;
 }
 ```
-| Parameter type | Parameter name | Explanation                            |
+| 参数类型 | 参数名 | 注解                                                   |
 |----------------|----------------|----------------------------------------|
-| string         | newSceneName   | The name of the new scene to be loaded |
+| string         | newSceneName   | 原场景名 |
 
 | Return type | Explanation                                     |
 |-------------|-------------------------------------------------|
-| string      | The new scene that the game should load instead |
+| string      | 代替的场景名                                     |
 
 ### SavegameLoadHook and NewGameHook
-Although these 2 hooks together can provide the ability to check for save opened, it is best to avoid these two hooks because
-1. NewGameHook is not called by Randomizer when creating a new game
-2. Using both hooks is clunky in order to check for save opened
+尽管这俩玩意放一起可以检测打开存档, 最好避开使用这俩钩子因为
+1. NewGameHook 这玩意在建立随机档时不触发
+2. 这么做很蠢（
 
-Instead we would recommend to use
-1. `On.UIManager.StartNewGame` to check for new game load
-2. `On.HeroController.Awake` to check for save opened
+作为替代品我们推荐使用
+1. `On.UIManager.StartNewGame` 检测新开的档
+2. `On.HeroController.Awake` 检测打开存档(包括开档)
 
 ### FinishedLoadingModsHook
-This event is called after all mod's Initialize have been called. Useful to run code that is dependant on other mods being loaded.
+这个事件在所有mod加载完后触发. 在需要其他mod运行时很有用.
 ```cs
 ModHooks.FinishedLoadingModsHook += FinishedLoadingMods;
 public string FinishedLoadingMods()
 {
-    //checks whether the mod named DebugMod exists
+    //检测DebugMod
     if (ModHooks.GetMod("DebugMod") is Mod)
     {
         Log("Debug Mod exists");
@@ -109,8 +108,8 @@ public string FinishedLoadingMods()
 ```
 
 ### AfterTakeDamageHook
-This event is called in `HeroController.TakeDamage`. It is called after invincibility is accounted for, but before damage is applied. Can be used to change the amount of damage taken by player
-> Note: Unlike the 1.4 MAPI, AfterTakeDamageHook is called when protected by baldur shell but the damage amount that is passed in is 0
+这个事件在 `HeroController.TakeDamage`中触发. 它在说明无敌后，伤害结算前调用. 可以改变受到的伤害
+> Note: 不像1.4api, AfterTakeDamageHook 会在触发乌龟壳后调用并且damage为0
 ```cs
 ModHooks.AfterTakeDamageHook += AfterTakeDamage;
 public int AfterTakeDamage(int hazardType, int damageAmount)
@@ -123,33 +122,33 @@ public int AfterTakeDamage(int hazardType, int damageAmount)
 ```
 | Parameter type | Parameter name | Explanation                                                                                                                                                                      |
 |----------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| int            | hazardType     | Even though it is an integer it represents a value from 0-4 of the enum `HazardType`. the possible values are => (0) `NON_HAZARD`,(1) `SPIKES`,(2) `ACID`,(3) `LAVA`, (4) `PIT`, |
-| int            | damageAmount   | The amount of damage that was going to be applied to player. return back this value to not change damage taken                                                                   |
+| int            | hazardType     | 尽管传的是一个整数，实际上是枚举 `HazardType（伤害类型）`. 可能的数值有 => (0) `NON_HAZARD（例：碰怪）`,(1) `SPIKES（荆棘/刺）`,(2) `ACID（酸水）`,(3) `LAVA（？？？）`, (4) `PIT（虚空背刺.jpg）`, |
+| int            | damageAmount   | 小骑士受到的伤害大小                                                                   |
 
 | Return type | Explanation                                         |
 |-------------|-----------------------------------------------------|
-| int         | The new damage that should be applied to the player |
+| int         | damageAmount |
 
 
 ### BeforeAddHealthHook
-This event is called in `PlayerData.AddHealth`. It is called before normal health is added. Can be used to change the amount of health added on heal
+这个事件在 `PlayerData.AddHealth`中被触发. 它在普通加血（聚集）时触发. 可以用于改变加血的量
 ```cs
 ModHooks.BeforeAddHealthHook += BeforeAddHealth;
 public int BeforeAddHealth(int amount)
 {
     Log("Amount of health to be healed is {amount}");
     
-    //make healing heal 2 times more health
+    //双倍加血量
     return amount * 2;
 }
 ```
 | Parameter type | Parameter name | Explanation                                           |
 |----------------|----------------|-------------------------------------------------------|
-| int            | amount         | the amount of health that will be added to the player |
+| int            | amount         | 原加血量                                               |
 
 | Return type | Explanation                                             |
 |-------------|---------------------------------------------------------|
-| int         | The new amount of health that should be added to player |
+| int         | 新的加血量                                               |
 
 ### TODO
 - Explain Get/Set Player Int/Float/Bool/String/Vector3 Hooks
