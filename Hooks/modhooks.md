@@ -62,7 +62,7 @@ public string LanguageGet(string key, string sheetTitle, string orig)
 | string      |  新文本（记得在无改动时返回原文本）                                              |
 
 ### BeforeSceneLoadHook
-> 注意: 这个钩子由于一下原因平常不需要使用:
+> 注意: 这个钩子由于以下原因平常不需要使用:
 > 1. 它只允许你改动场景名，不允许改动其他数据 
 > 2. 如果你的目的是查看新进的场景, 使用 `UnityEngine.SceneManagement.SceneManager.activeSceneChanged` 代替
 > 3. 如果你的目的是查看进入了哪个场景并改动它, 用 `On.GameManager.BeginSceneTransition` 代替 (因为可以解决问题1). 
