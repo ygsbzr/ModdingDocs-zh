@@ -48,7 +48,7 @@ namespace MyFirstMod
  -  `GetVersion` 与上面类似，但是是用于显示版本号(不写就是Unknown)(让我康康还有几个人以为这是报错).
  -  `Initialize` 在Api准备启动我们的Mod进行修改时调用, 这也是提供预加载的地方(稍后再谈)
  - `ModHooks.HeroUpdateHook` Modding Api提供给了我们一些我们可以作出反应的*事件*，这是允许我们可以写代码来对游戏事件进行响应的部分， 例如`HeroUpdateHook`就是一个在小骑士存在时每帧调用的事件, 这让我们监听按键并作出响应成为可能, 为了达到这个目的，我们使用自己的方法 `OnHeroUpdate`.
- - `OnHeroUpdate` 简单地检查 `O` 键这一帧是否被按下, 如果按下就将字符串"Key Pressed"写入`Modlog.txt`
+ - `OnHeroUpdate` 简单地检查 `O` 键在这一帧是否被按下, 如果按下就将字符串"Key Pressed"写入`Modlog.txt`
 
 ## Mod基类与生命周期 
 为了深入了解Mod基类是什么以及mod的生命周期,你可以参考如下文档
