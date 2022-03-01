@@ -1,13 +1,13 @@
 # ModHooks Reference
-Here you can find a list of all hooks and an explanation of what they do and how to use it.  
-However, not all hooks are listed here. Please refer to the 
+在这里你可以找到钩子函数，并有关于它们的解释，以及如何使用它们
+然而，这里并不包含所有的钩子函数，具体参阅
 [API Documentation](https://hk-modding.github.io/api/api/Modding.ModHooks.html#events) for a list of all hooks.
 
 ### HeroUpdateHook
-This event is called in `HeroController.Update`.  
-It can be used to run code every frame the player exists.
-Useful for running code every frame during gameplay without having to create a MonoBehaviour.
-Can be used to check for conditions and run code (example: check `Input.GetKeyDown(KeyCode.Space))` and run code depending on that.
+这个事件将在 `HeroController.Update`函数中被调用.  
+它可以用于玩家存在的每一帧.
+在需要代码每帧运行而没有创建Monobehavior时非常有用.
+可以用于检查各种情况以及跑代码 (示例：检测 `Input.GetKeyDown(KeyCode.Space))` （下面的代码用于检测按下空格键）.
 ```cs
 ModHooks.HeroUpdateHook += HeroUpdate;
 public string HeroUpdate()
