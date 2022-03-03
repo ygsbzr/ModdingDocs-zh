@@ -118,7 +118,7 @@ public class OtherClass
    
 
 ## 日志文件位置:  
-`ModLog.txt` can be found in the same folder as your save files:
+可以在存档文件夹中找到`ModLog.txt`:
 - Windows: `%APPDATA%\..\LocalLow\Team Cherry\Hollow Knight\`
 - MacOS  : `~/Library/Application Support/unity.Team Cherry.Hollow Knight/`
 - Linux  : `~/.config/unity3d/Team Cherry/Hollow Knight/`
