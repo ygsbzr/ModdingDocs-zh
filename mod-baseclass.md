@@ -40,43 +40,43 @@ By "load" order we strictly mean the order in which the `Initialize` method is c
 public MyFirstMod() : base("My 1st Mod") { }
 ```
 
- ### Set your Mods Version
- To allow user's to tell your mod versions apart and to allow you to debug issues, you can set the version
+ ###  设置mod版本号
+ 让使用者可以知道使用的版本以便于调试等工作
  
 ``` cs 
  public override string GetVersion() => "v0.1";
 ```
 
-> Note: it is advisable to always change your version before publishing a new release to make sure that people are able to use the right version when installing / reporting bugs.
+> 注意:建议在你每发布一个新版本前都修改版本号以便于其他人可以在下载/报bug时使用正确的版本
 
- ### Request for preloads
+ ### 预加载需求
  
-The Mod base class allows your mod to request the Modding Api to preload game objects from a particular scene.
-for more information see  [Preloading game objects](preloads.md) .
+mod基类允许你向api发送请求以预加载来自某一个房间的游戏物品
+获取更多信息请看  [预加载游戏物品](preloads.md) .
 
- ### Initialize your mod
-The Mod base class allows your mod to [receive the Preloaded objects](preloads.md), and work with setting up your mod code in Initialize. This method is called after your mod class is constructed, but beware that it is called more than once, especially if your mod is toggled on and off. refer to [Mod Lifecycle](mod-lifecycle.md) for more details on the order of execution.
+ ### mod初始化
+mod类允许你的mod去 [接收预加载物品](preloads.md), 并应用于mod初始化阶段. 这个方法在你的mod构建完成后调用,但要注意它调用的次数不止一次, 特别是你的mod开关的时候. 查阅 [Mod Lifecycle（mod生命周期）](mod-lifecycle.md) 以获取更多细节.
 
-## Optional Interfaces
+## 可选择的接口
 
-### Make your Mod toggleable
+### 让你的mod可以开关
 
->Todo
+>即将呈现
 
-### Add global settings
+### 添加global setting
 
-Global settings are the way mods can save settings that should persist across save games
+Global setting是mod可以保存mod设置的方法 (**这种设置在各个存档间是一样的**)
 
-refer to [creating global settings](saving-mod-data.md#creating-global-settings)
+参考 [创建global settings](saving-mod-data.md#creating-global-settings)
 
-### Add local settings
+### 添加 local settings
 
-Local settings are the way mods can save data per save game, this may be settings but for more involved mods this may include saving play state for example : if a player has acquired a custom item or not in this save, could be saved here.
+Local settings 是在每个存档之间保存不同设置的方法, 这可能是设置，但对于更多涉及的mod，这可能包括保存玩家状态， 例如 : 如果一个玩家拿到了不属于原存档的自定义物品, 可以保存到localsetting.
 
-refer to [creating local settings](saving-mod-data.md#creating-local-settings)
+参考 [创建 local settings](saving-mod-data.md#creating-local-settings)
 
-### Add a mod menu
+### 添加mod菜单
 
-Mod menu is the way for mods to give the player an interactive UI to change their settings as opposed to editing settings files manually. Instead of using custom UI to handle this, it is recommended to use the Mod menu so that players can have a consistent experience and the pause menu is not cluttered, wherever possible.
+Mod 菜单是mod提供给玩家的一种可交互ui来修改各种设置*特别是globalsetting和localsetting*，和手动修改setting文件的效果一样。 作为使用自定义ui来解决这个问题的替代品, 建议使用mod菜单mod菜单来让玩家有着一致的体验，并且这样做可以让暂停菜单不被弄乱.
 
-for more about creating menus, head over to the dedicated page that covers the different types of [Mod menus](modmenu.md)
+获取更多有关如何打造一个mod菜单的信息, 请前往包含不同种类 [Mod 菜单](modmenu.md)的菜单页
