@@ -1,4 +1,8 @@
-# Getting started guide
+---
+title: Getting Started
+nav_order: 1
+---
+# Hollow Knight Modding Docs
 
 > Please note that this documentation is being written with the latest patch of the game in mind, for older patches you can refer to the documentation at [radiance.host](https://radiance.host/apidocs/Getting-Started.html)
 
@@ -22,7 +26,7 @@ The next few sections will give you a better idea of what modding hollow knight 
 	 - [The Mod Lifecycle](mod-lifecycle.md) 
 	 - [Preloading game objects](preloads.md)
 	 - [Logging](logging.md)
-	 - [Hooks](hooks.md)
+	 - [Hooks](Hooks/hooks.md)
 	 - [Saving Mod Data](saving-mod-data.md)
 	 - [Mod Menu](modmenu.md)
 	 - [Hollow Knight Classes](hkclasses.md)

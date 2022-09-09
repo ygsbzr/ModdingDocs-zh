@@ -1,3 +1,6 @@
+---
+nav_order: 12
+---
 # PlaymakerFSMs
 ## Introduction:  
 Playmaker is a visual state machine editor that Team Cherry use quite extensively across the game to control how things behave. Unfortunately this means that much of the game's behavior is not written in easy to work with code form, but is represented as a flow chart of states.
@@ -95,7 +98,7 @@ fsm.ChangeTransition("fromStateName","onEventName","toStateName")
 ### Creating Custom FSM Actions
 If you want to do something specific to an FSM but there isn't an action that already does that, you can create your own pretty trivially.
 For this example I would like to conditionally flip the isTrue and isFalse events in this fsm.  
-![An action from the "Direction Wall" state in Knight-Superdash](Images/customfsmstateexample.jpg).     
+![An action from the "Direction Wall" state in Knight-Superdash](/ModdingDocs/Images/customfsmstateexample.jpg).     
 The easiest way to do this would be to create a "ConditionallyFlip_BoolTest" Action.  
 To get started, open [ILspy](Tools/decompilers.md) and search for the original Action (BoolTest in this case). Other than the attributes above the
 fields, the code is copy paste friendly which can be used as a reference when creating the custom FSM action.  
